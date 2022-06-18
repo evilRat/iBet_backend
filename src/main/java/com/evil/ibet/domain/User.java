@@ -21,6 +21,7 @@ public class User {
 
     @Id
     private int id;             //用户id
+    private Integer type;   //用户类型
     private String wxOpenId;    //微信openId
     private String wxNickName;  //用户微信昵称
     private String userName;    //用户真实姓名
