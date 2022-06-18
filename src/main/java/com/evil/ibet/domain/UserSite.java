@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.sql.Date;
+import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 
 @Data
@@ -16,16 +16,14 @@ import java.time.OffsetDateTime;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "t_user")
-public class User {
+@Table(name = "t_user_site")
+public class UserSite {
 
     @Id
-    private int id;             //用户id
-    private String wxOpenId;    //微信openId
-    private String wxNickName;  //用户微信昵称
-    private String userName;    //用户真实姓名
-    private String idCardNo;      //用户身份证信息
-    private String phoneNo;     //用户手机号码
+    private Integer id;             //id
+    private Integer userId;    //用户id
+    private Integer siteId;  //投注站id
+    private BigDecimal balance;    //用户在投注站的余额
 
     private OffsetDateTime createTime; //创建时间
     private OffsetDateTime updateTime; //更新时间

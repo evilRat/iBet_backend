@@ -1,16 +1,17 @@
-package com.evil.ibet.common.controller;
+package com.evil.ibet.resource;
 
 import com.alibaba.fastjson.JSON;
-import com.evil.ibet.common.service.OrderService;
-import com.evil.ibet.entity.Order;
-import com.evil.ibet.wechat.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.evil.ibet.domain.Order;
+import com.evil.ibet.service.OrderService;
+import com.evil.ibet.service.UserService;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,9 +20,9 @@ import java.util.Map;
 @RequestMapping("order")
 public class OrderController {
 
-    @Autowired
+    @Resource
     private OrderService orderService;
-    @Autowired
+    @Resource
     private UserService userService;
 
     @RequestMapping(value = "userOrder", produces = "application/json;charset=UTF-8")
@@ -55,9 +56,9 @@ public class OrderController {
 
         if (!StringUtils.isEmpty(userId) && !StringUtils.isEmpty(betSiteId)
                 && !StringUtils.isEmpty(redBalls) && !StringUtils.isEmpty(blueBalls) && !StringUtils.isEmpty(times)) {
-            Order order = new Order(Integer.valueOf(userId), Integer.valueOf(betSiteId), Integer.valueOf(betId), redBalls, blueBalls, Integer.valueOf(times));
-            int returnId = orderService.saveOrder(order);
-            if (returnId > 0) {
+            Order order = Order.builder().id(Integer.parseInt(userId)).betSiteId(Integer.parseInt(betSiteId)).betId(Integer.parseInt(betId)).redBalls(redBalls).blueBalls(blueBalls).times(Integer.parseInt(times)).build();
+            Order addOrder = orderService.saveOrder(order);
+            if (addOrder != null) {
                 Map map = new HashMap();
                 map.put("userId", userId);
                 map.put("betSiteId", betSiteId);

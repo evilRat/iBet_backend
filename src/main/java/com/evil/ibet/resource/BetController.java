@@ -1,14 +1,14 @@
-package com.evil.ibet.wechat.controller;
+package com.evil.ibet.resource;
 
 import com.alibaba.fastjson.JSON;
-import com.evil.ibet.entity.BetSite;
-import com.evil.ibet.wechat.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.evil.ibet.domain.BetSite;
+import com.evil.ibet.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +17,7 @@ import java.util.Map;
 @RequestMapping("wechat")
 public class BetController {
 
-    @Autowired
+    @Resource
     private UserService userService;
 
     @RequestMapping(value = "betSites", produces = "application/json;charset=UTF-8")

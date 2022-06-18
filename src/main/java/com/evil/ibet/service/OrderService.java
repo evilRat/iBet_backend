@@ -1,12 +1,12 @@
-package com.evil.ibet.common.service;
+package com.evil.ibet.service;
 
-import com.evil.ibet.entity.Order;
+import com.evil.ibet.domain.Order;
 
 import java.util.List;
 
 public interface OrderService {
 
-    int saveOrder(Order order);
+    Order saveOrder(Order order);
 
     List<Order> getOrderByUserId(String userId);
 

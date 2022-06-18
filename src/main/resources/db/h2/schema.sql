@@ -1,170 +1,79 @@
--- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
---
--- Host: localhost    Database: ibet
--- ------------------------------------------------------
--- Server version	5.7.17-log
+DROP TABLE IF EXISTS t_bet;
+CREATE TABLE t_bet
+(
+    id               int         NOT NULL AUTO_INCREMENT,
+    bet_name         varchar(45) not NULL comment '玩法名称',
+    red_ball_num     int         NOT NULL comment '红球个数',
+    blue_ball_num    int         NOT NULL comment '蓝球个数',
+    red_ball_range   int         NOT NULL comment '红球范围',
+    blue_ball_range  int         NOT NULL comment '蓝球范围',
+    icon             varchar(45) DEFAULT NULL comment 'icon',
+    create_user      int         not null comment '创建人id',
+    create_user_name varchar(45) not null comment '创建人姓名',
+    create_time      datetime    not null comment '创建时间',
+    update_user      int         not null comment '更新人id',
+    update_user_name varchar(45) not null comment '更新人姓名',
+    update_time      datetime    not null comment '更新实践',
+    PRIMARY KEY (id)
+);
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+DROP TABLE IF EXISTS t_bet_site;
+CREATE TABLE t_bet_site
+(
+    id               int          NOT NULL AUTO_INCREMENT,
+    site_name        varchar(255) not null comment '投注站名称',
+    master           varchar(255) not null comment '站长',
+    master_id_card   varchar(255) not null comment '站长身份证号',
+    username         varchar(255) not null comment '管理员登录名',
+    password         varchar(255) not null comment '管理员密码',
+    bet_types        varchar(255) not null comment '玩法',
 
---
--- Table structure for table `t_bet`
---
+    create_user      int          not null comment '创建人id',
+    create_user_name varchar(45)  not null comment '创建人姓名',
+    create_time      datetime     not null comment '创建时间',
+    update_user      int          not null comment '更新人id',
+    update_user_name varchar(45)  not null comment '更新人姓名',
+    update_time      datetime     not null comment '更新实践',
+    PRIMARY KEY (id)
+);
 
-DROP TABLE IF EXISTS `t_bet`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `t_bet` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(45) DEFAULT NULL,
-  `redballnum` int(11) NOT NULL,
-  `blueballnum` int(11) NOT NULL,
-  `redballrange` int(11) NOT NULL,
-  `blueballrange` int(11) NOT NULL,
-  `picname` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `t_bet`
---
+DROP TABLE IF EXISTS t_user;
+CREATE TABLE t_user
+(
+    id               int         NOT NULL AUTO_INCREMENT,
+    wx_open_id       varchar(45) NOT NULL,
+    wx_nick_name     varchar(45) DEFAULT NULL,
+    user_name        varchar(45) DEFAULT NULL,
+    id_card_no       varchar(18) DEFAULT NULL,
+    phone_no         varchar(11) DEFAULT NULL,
 
-LOCK TABLES `t_bet` WRITE;
-/*!40000 ALTER TABLE `t_bet` DISABLE KEYS */;
-/*!40000 ALTER TABLE `t_bet` ENABLE KEYS */;
-UNLOCK TABLES;
+    create_user      int         not null comment '创建人id',
+    create_user_name varchar(45) not null comment '创建人姓名',
+    create_time      datetime    not null comment '创建时间',
+    update_user      int         not null comment '更新人id',
+    update_user_name varchar(45) not null comment '更新人姓名',
+    update_time      datetime    not null comment '更新实践',
+    PRIMARY KEY (id)
+);
 
---
--- Table structure for table `t_bet_betsite`
---
 
-DROP TABLE IF EXISTS `t_bet_site`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `t_bet_site` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `betid` int(11) DEFAULT NULL,
-  `betsiteid` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `betid_idx` (`betid`),
-  KEY `betsiteid_idx` (`betsiteid`),
-  CONSTRAINT `betid` FOREIGN KEY (`betid`) REFERENCES `t_bet` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `betsiteid1` FOREIGN KEY (`betsiteid`) REFERENCES `t_betsite` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS t_user_site;
+CREATE TABLE t_user_site
+(
+    id               int         NOT NULL AUTO_INCREMENT,
+    user_id          int           DEFAULT NULL comment '用户ID',
+    site_id          int           DEFAULT NULL comment '投注站id',
+    balance          decimal(6, 2) DEFAULT NULL comment '用户在投注站余额',
 
---
--- Dumping data for table `t_bet_site`
---
+    create_user      int         not null comment '创建人id',
+    create_user_name varchar(45) not null comment '创建人姓名',
+    create_time      datetime    not null comment '创建时间',
+    update_user      int         not null comment '更新人id',
+    update_user_name varchar(45) not null comment '更新人姓名',
+    update_time      datetime    not null comment '更新实践',
+    PRIMARY KEY (id)
+);
+alter table t_user_site
+    add unique (user_id, site_id);
 
-LOCK TABLES `t_bet_site` WRITE;
-/*!40000 ALTER TABLE `t_bet_site` DISABLE KEYS */;
-/*!40000 ALTER TABLE `t_bet_site` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `t_betsite`
---
-
-DROP TABLE IF EXISTS `t_betsite`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `t_betsite` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(45) DEFAULT NULL,
-  `master` varchar(45) DEFAULT NULL,
-  `username` varchar(45) DEFAULT NULL,
-  `password` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `t_betsite`
---
-
-LOCK TABLES `t_betsite` WRITE;
-/*!40000 ALTER TABLE `t_betsite` DISABLE KEYS */;
-/*!40000 ALTER TABLE `t_betsite` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `t_user`
---
-
-DROP TABLE IF EXISTS `t_user`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `t_user` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `wxopenid` varchar(45) NOT NULL,
-  `username` varchar(45) DEFAULT NULL,
-  `wxnickname` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `t_user`
---
-
-LOCK TABLES `t_user` WRITE;
-/*!40000 ALTER TABLE `t_user` DISABLE KEYS */;
-/*!40000 ALTER TABLE `t_user` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `t_user_betsite`
---
-
-DROP TABLE IF EXISTS `t_user_betsite`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `t_user_betsite` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `userid` int(11) DEFAULT NULL,
-  `betsiteid` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `userid_idx` (`userid`),
-  KEY `betsiteid_idx` (`betsiteid`),
-  CONSTRAINT `betsiteid` FOREIGN KEY (`betsiteid`) REFERENCES `t_betsite` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `userid` FOREIGN KEY (`userid`) REFERENCES `t_user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `t_user_betsite`
---
-
-LOCK TABLES `t_user_betsite` WRITE;
-/*!40000 ALTER TABLE `t_user_betsite` DISABLE KEYS */;
-/*!40000 ALTER TABLE `t_user_betsite` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Dumping events for database 'ibet'
---
-
---
--- Dumping routines for database 'ibet'
---
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
-
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-
--- Dump completed on 2019-01-07 14:43:37

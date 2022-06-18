@@ -1,4 +1,4 @@
-package com.evil.ibet.util;
+package com.evil.ibet.utils;
 
 import com.alibaba.fastjson.JSONObject;
 import org.bouncycastle.util.Arrays;

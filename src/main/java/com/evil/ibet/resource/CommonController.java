@@ -1,12 +1,11 @@
-package com.evil.ibet.wechat.controller;
+package com.evil.ibet.resource;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.evil.ibet.entity.User;
-import com.evil.ibet.util.PropertiesUtil;
-import com.evil.ibet.util.WXUtils;
-import com.evil.ibet.wechat.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.evil.ibet.domain.User;
+import com.evil.ibet.service.UserService;
+import com.evil.ibet.utils.WXUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
+import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,21 +29,27 @@ import java.util.Map;
 @RequestMapping("wechat")
 public class CommonController {
 
-    @Autowired
+    @Value("${wechat.appId}")
+    private String appId;
+
+    @Value("${wechat.appSecret}")
+    private String appSecret;
+
+    @Resource
     private UserService userService;
 
     @RequestMapping(value = "login", produces = {"application/json;charset=UTF-8"})
     public @ResponseBody String login(String jsCode, String iv, String encryptedData) {
-        Map returnMap = new HashMap();
+        Map returnMap;
         Map resultMap = new HashMap();
         String rtnCode = "999";  //999:调用失败 0：新用户（未注册）引导注册  1：已注册
         String rtnMessage = "使用微信登陆失败，请关闭小程序后重试";
         int userId = 0;
 
-        if (!StringUtils.isEmpty(jsCode)) {
+        if (!StringUtils.hasText(jsCode)) {
             String loginUrl = "https://api.weixin.qq.com/sns/jscode2session?appid=" +
-                    PropertiesUtil.getPropertie("AppId") + "&secret=" +
-                    PropertiesUtil.getPropertie("AppSecret") + "&js_code=" +
+                    appId + "&secret=" +
+                    appSecret + "&js_code=" +
                     jsCode + "&grant_type=authorization_code";
             RestTemplate restTemplate = new RestTemplate();
             ResponseEntity<String> responseEntity = restTemplate.exchange(loginUrl, HttpMethod.GET, null, String.class);
@@ -58,7 +64,7 @@ public class CommonController {
                 if (!StringUtils.isEmpty(wxOpenId)) {
                     User checkUser = userService.getUserByWxOpenId(wxOpenId);
                     if (checkUser == null) {
-                        User user = new User(wxOpenId, nickName);
+                        User user = User.builder().wxOpenId(wxOpenId).wxNickName(nickName).build();
                         userService.saveUser(user);
                         rtnCode = "0";
                         rtnMessage = "您是新用户，请完成注册";
@@ -90,14 +96,14 @@ public class CommonController {
         String rtnCode = "999";  //999:调用失败 0：注册成功  1：注册失败
         String rtnMessage = "使用微信登陆失败，请关闭小程序后重试";
         if (!StringUtils.isEmpty(idCardNo) && !StringUtils.isEmpty(userName) && !StringUtils.isEmpty(phoneNo)) {
-            User user = new User(Integer.valueOf(userId), userName, idCardNo, phoneNo);
-            int count = userService.updateUserById(user);
-            if (count == 1) {
+            User user = User.builder().id(Integer.parseInt(userId)).userName(userName).idCardNo(idCardNo).phoneNo(phoneNo).build();
+            User addUser = userService.updateUserById(user);
+            if (null != addUser) {
                 rtnCode = "0";
                 rtnMessage = "成功";
             } else {
                 rtnCode = "1";
-                rtnMessage = "失败，更新结果不唯一";
+                rtnMessage = "失败";
             }
         }
         resultMap.put("rtnCode", rtnCode);

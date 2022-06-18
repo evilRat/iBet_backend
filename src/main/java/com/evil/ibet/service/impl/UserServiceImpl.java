@@ -1,16 +1,14 @@
-package com.evil.ibet.service;
+package com.evil.ibet.service.impl;
 
 import com.evil.ibet.domain.BetSite;
 import com.evil.ibet.domain.User;
-import com.evil.ibet.entity.BetSite;
 import com.evil.ibet.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.evil.ibet.service.UserService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -35,11 +33,13 @@ public class UserServiceImpl implements UserService {
     }
 
     public List<BetSite> getUserBetSitesByUserId(String userId) {
-        return userRepository.selectUserBetSitesByUserId(userId);
+//        return userRepository.selectUserBetSitesByUserId(userId);
+        return null;
     }
 
     public int updateUserBalanceByUserIdBetSiteId(Map map) {
-        return userRepository.updateUserBalanceByUserIdBetSiteId(map);
+//        return userRepository.updateUserBalanceByUserIdBetSiteId(map);
+        return 0;
     }
 
 }

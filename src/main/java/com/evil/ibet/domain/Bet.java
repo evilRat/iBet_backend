@@ -1,62 +1,36 @@
-package com.evil.ibet.entity;
+package com.evil.ibet.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import java.time.OffsetDateTime;
+
+@Data
+@Builder
+@Entity
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "t_bet")
 public class Bet {
 
+    @Id
     private int id;
-    private String name;
+    private String betName;
     private int redBallNum;
     private int blueBallNum;
-    private int picname;
+    private int redBallRange;
+    private int blueBallRange;
+    private String icon;
 
-    public Bet() {
-
-    }
-
-    public Bet(int id, String name, int redBallNum, int blueBallNum, int picname) {
-        this.id = id;
-        this.name = name;
-        this.redBallNum = redBallNum;
-        this.blueBallNum = blueBallNum;
-        this.picname = picname;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getRedBallNum() {
-        return redBallNum;
-    }
-
-    public void setRedBallNum(int redBallNum) {
-        this.redBallNum = redBallNum;
-    }
-
-    public int getBlueBallNum() {
-        return blueBallNum;
-    }
-
-    public void setBlueBallNum(int blueBallNum) {
-        this.blueBallNum = blueBallNum;
-    }
-
-    public int getPicname() {
-        return picname;
-    }
-
-    public void setPicname(int picname) {
-        this.picname = picname;
-    }
+    private OffsetDateTime createTime; //创建时间
+    private OffsetDateTime updateTime; //更新时间
+    private String createUser; //创建人id
+    private String createUserName; //创建人姓名
+    private String updateUser; //更新人id
+    private String updateUserName; //更新人姓名
 }

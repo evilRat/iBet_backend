@@ -1,7 +1,7 @@
-package com.evil.ibet.wechat.service;
+package com.evil.ibet.service;
 
-import com.evil.ibet.entity.BetSite;
-import com.evil.ibet.entity.User;
+import com.evil.ibet.domain.BetSite;
+import com.evil.ibet.domain.User;
 
 import java.util.List;
 import java.util.Map;
@@ -14,7 +14,7 @@ public interface UserService {
 
     User getUserById(String wxOpenId);
 
-    int updateUserById(User user);
+    User updateUserById(User user);
 
     List<BetSite> getUserBetSitesByUserId(String userId);
 

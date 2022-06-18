@@ -1,106 +1,38 @@
-package com.evil.ibet.entity;
+package com.evil.ibet.domain;
 
-import java.sql.Timestamp;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import java.math.BigDecimal;
+import java.time.OffsetDateTime;
+
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
+@Table(name = "t_order")
 public class Order {
 
+    @Id
     private int id;
     private int userId;
     private int betSiteId;
     private int betId;
     private String redBalls;
     private String blueBalls;
-    private int times;
-    private Timestamp orderTime;
+    private int times; //倍数;
+    private BigDecimal amount; //总金额
 
-    public Order() {
-
-    }
-
-
-    public Order(int id, int userId, int betSiteId, int betId, String redBalls, String blueBalls, int times, Timestamp orderTime) {
-        this.id = id;
-        this.userId = userId;
-        this.betSiteId = betSiteId;
-        this.betId = betId;
-        this.redBalls = redBalls;
-        this.blueBalls = blueBalls;
-        this.times = times;
-        this.orderTime = orderTime;
-    }
-
-    public Order(int userId, int betSiteId, int betId, String redBalls, String blueBalls, int times) {
-        this.id = id;
-        this.userId = userId;
-        this.betSiteId = betSiteId;
-        this.betId = betId;
-        this.redBalls = redBalls;
-        this.blueBalls = blueBalls;
-        this.times = times;
-        this.orderTime = orderTime;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
-    public int getBetSiteId() {
-        return betSiteId;
-    }
-
-    public void setBetSiteId(int betSiteId) {
-        this.betSiteId = betSiteId;
-    }
-
-    public int getBetId() {
-        return betId;
-    }
-
-    public void setBetId(int betId) {
-        this.betId = betId;
-    }
-
-    public String getRedBalls() {
-        return redBalls;
-    }
-
-    public void setRedBalls(String redBalls) {
-        this.redBalls = redBalls;
-    }
-
-    public String getBlueBalls() {
-        return blueBalls;
-    }
-
-    public void setBlueBalls(String blueBalls) {
-        this.blueBalls = blueBalls;
-    }
-
-    public int getTimes() {
-        return times;
-    }
-
-    public void setTimes(int times) {
-        this.times = times;
-    }
-
-    public Timestamp getOrderTime() {
-        return orderTime;
-    }
-
-    public void setOrderTime(Timestamp orderTime) {
-        this.orderTime = orderTime;
-    }
+    private OffsetDateTime createTime; //创建时间
+    private OffsetDateTime updateTime; //更新时间
+    private String createUser; //创建人id
+    private String createUserName; //创建人姓名
+    private String updateUser; //更新人id
+    private String updateUserName; //更新人姓名
 }

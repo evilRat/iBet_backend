@@ -1,6 +1,4 @@
-package com.evil.ibet.wechat.service;
-
-import java.util.List;
+package com.evil.ibet.service;
 
 public interface betService {
 
