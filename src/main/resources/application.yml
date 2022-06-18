@@ -1,0 +1,9 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: none
+
+wechat:
+  appId: wx0a2bb7689825104f
+  appSecret: 38698fe905191f131058567505222b88
+
