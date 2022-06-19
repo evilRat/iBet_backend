@@ -15,8 +15,4 @@ public interface UserService {
     User getUserById(String wxOpenId);
 
     User updateUserById(User user);
-
-    List<BetSite> getUserBetSitesByUserId(String userId);
-
-    int updateUserBalanceByUserIdBetSiteId(Map map);
 }

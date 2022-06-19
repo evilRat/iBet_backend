@@ -32,14 +32,4 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
     }
 
-    public List<BetSite> getUserBetSitesByUserId(String userId) {
-//        return userRepository.selectUserBetSitesByUserId(userId);
-        return null;
-    }
-
-    public int updateUserBalanceByUserIdBetSiteId(Map map) {
-//        return userRepository.updateUserBalanceByUserIdBetSiteId(map);
-        return 0;
-    }
-
 }

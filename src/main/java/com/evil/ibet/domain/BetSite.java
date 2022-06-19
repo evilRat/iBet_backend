@@ -9,7 +9,9 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.time.OffsetDateTime;
+import java.util.List;
 
 @Data
 @Builder
@@ -35,4 +37,6 @@ public class BetSite {
     private String updateUser; //更新人id
     private String updateUserName; //更新人姓名
 
+    @Transient
+    private List<Integer> betTypeList;
 }

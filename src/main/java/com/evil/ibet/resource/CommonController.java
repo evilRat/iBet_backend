@@ -46,7 +46,7 @@ public class CommonController {
         String rtnMessage = "使用微信登陆失败，请关闭小程序后重试";
         int userId = 0;
 
-        if (!StringUtils.hasText(jsCode)) {
+        if (StringUtils.hasText(jsCode)) {
             String loginUrl = "https://api.weixin.qq.com/sns/jscode2session?appid=" +
                     appId + "&secret=" +
                     appSecret + "&js_code=" +
@@ -61,7 +61,7 @@ public class CommonController {
                 String sessionKey = returnMap.get("session_key").toString();
                 JSONObject userInfo = WXUtils.decodeUserInfo(encryptedData, sessionKey, iv);
                 String nickName = userInfo.get("nickName").toString();
-                if (!StringUtils.isEmpty(wxOpenId)) {
+                if (StringUtils.hasText(wxOpenId)) {
                     User checkUser = userService.getUserByWxOpenId(wxOpenId);
                     if (checkUser == null) {
                         User user = User.builder().wxOpenId(wxOpenId).wxNickName(nickName).build();

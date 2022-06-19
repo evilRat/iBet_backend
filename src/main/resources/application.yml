@@ -1,9 +1,9 @@
 database: h2
-
 spring:
   jpa:
     hibernate:
       ddl-auto: none
+    show-sql: true
   sql:
     init:
       schema-locations: "classpath:db/${database}/schema.sql"
@@ -12,6 +12,8 @@ spring:
       mode: embedded
 
 wechat:
-  appId: wx0a2bb7689825104f
-  appSecret: 38698fe905191f131058567505222b88
-
+  appId: wxe4c70577dd6dd519
+  appSecret: e5bf75405f236a3396b2b32e27b8e491
+server:
+  servlet:
+    context-path: /ibet
