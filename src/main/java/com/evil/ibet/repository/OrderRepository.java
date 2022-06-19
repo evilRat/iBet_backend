@@ -9,6 +9,9 @@ import java.util.List;
 public interface OrderRepository extends CrudRepository<Order, Integer> {
 
     @Query("select bean from Order bean where bean.userId = ?1")
-    List<Order> selectOrdersByUserId(String userId);
+    List<Order> selectOrdersByUserId(Integer userId);
+
+    @Query("select bean from Order bean where bean.userId = ?1 and bean.siteId = ?2")
+    List<Order> selectOrdersByUserIdAndSiteId(Integer userId, Integer siteId);
 
 }

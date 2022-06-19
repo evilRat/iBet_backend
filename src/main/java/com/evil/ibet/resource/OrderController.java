@@ -1,22 +1,21 @@
 package com.evil.ibet.resource;
 
 import com.alibaba.fastjson.JSON;
-import com.evil.ibet.domain.Order;
-import com.evil.ibet.service.OrderService;
-import com.evil.ibet.service.UserService;
-import com.evil.ibet.service.UserSiteService;
-import org.aspectj.weaver.ast.Or;
+import com.evil.ibet.domain.*;
+import com.evil.ibet.service.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("order")
@@ -25,29 +24,36 @@ public class OrderController {
     @Resource
     private OrderService orderService;
     @Resource
-    private UserService userService;
-    @Resource
     private UserSiteService userSiteService;
 
-    @RequestMapping(value = "userOrder", produces = "application/json;charset=UTF-8")
-    public @ResponseBody String getUserOrder(String userId) {
+    @Resource
+    private BetSiteService betSiteService;
 
-        String rtnCode = "999";
-        String rtnMessage = "调用接口失败 order/newOrder";
-        Map resultMap = new HashMap();
+    @Resource
+    private BetService betService;
 
-        List<Order> orderList = orderService.getOrderByUserId(userId);
-        if (orderList == null || orderList.size() ==0) {
-            rtnCode = "1";
-            rtnMessage = "您最近五天没有订单";
-        } else {
-            rtnCode = "0";
-            rtnMessage = "成功";
+    @GetMapping("getByUserAndSite")
+    public @ResponseBody Response getUserOrder(@RequestParam Integer userId, @RequestParam Integer siteId) {
+        // todo 分页
+        List<Order> orderList = orderService.getOrderByUserIdAndSiteId(userId, siteId);
+        if (orderList.isEmpty()) {
+            return CommonResponse.success();
         }
-        resultMap.put("rtnCode", rtnCode);
-        resultMap.put("rtnMessage", rtnMessage);
-        resultMap.put("userOrderList", orderList);
-        return JSON.toJSONString(resultMap);
+        // 获取相关投注站信息
+        List<BetSite> betSiteByIdList = betSiteService.getBetSiteByIdList(orderList.stream().map(Order::getSiteId).collect(Collectors.toList()));
+        Map<Integer, BetSite> betSiteMap = betSiteByIdList.stream().collect(Collectors.toMap(BetSite::getId, Function.identity(), (e1, e2) -> e1));
+        // 获取玩法信息
+        List<Bet> betList = betService.getBetByIdList(orderList.stream().map(Order::getBetId).collect(Collectors.toList()));
+        Map<Integer, Bet> betMap = betList.stream().collect(Collectors.toMap(Bet::getId, Function.identity(), (e1, e2) -> e1));
+        orderList.forEach(o -> {
+            o.setSiteName(betSiteMap.get(o.getSiteId()).getSiteName());
+            o.setBetName(betMap.get(o.getBetId()).getBetName());
+            o.setRedList(Arrays.stream(o.getRedBalls().split(",")).map(Integer::parseInt).collect(Collectors.toList()));
+            if (StringUtils.hasText(o.getBlueBalls())) {
+                o.setBlueList(Arrays.stream(o.getBlueBalls().split(",")).map(Integer::parseInt).collect(Collectors.toList()));
+            }
+        });
+        return CommonResponse.success(orderList);
     }
 
     @Transactional
@@ -60,7 +66,7 @@ public class OrderController {
 
         if (!StringUtils.isEmpty(userId) && !StringUtils.isEmpty(betSiteId)
                 && !StringUtils.isEmpty(redBalls) && !StringUtils.isEmpty(blueBalls) && !StringUtils.isEmpty(times)) {
-            Order order = Order.builder().id(userId).betSiteId(betSiteId).betId(betId).redBalls(redBalls).blueBalls(blueBalls).times(times).build();
+            Order order = Order.builder().id(userId).siteId(betSiteId).betId(betId).redBalls(redBalls).blueBalls(blueBalls).times(times).build();
             Order addOrder = orderService.saveOrder(order);
             if (addOrder != null) {
                 userSiteService.updateUserBalanceByUserIdBetSiteId(userId, betSiteId, BigDecimal.valueOf(2*times));

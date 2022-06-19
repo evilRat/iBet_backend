@@ -7,6 +7,8 @@ import java.util.List;
 public interface BetService {
 
 
-    List<Bet> getBetSiteByIdList(List<Integer> idList);
+    List<Bet> getBetByIdList(List<Integer> idList);
+
+    Bet getBetById(Integer id);
 
 }

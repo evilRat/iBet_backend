@@ -16,7 +16,12 @@ public class BetServiceImpl implements BetService {
 
 
     @Override
-    public List<Bet> getBetSiteByIdList(List<Integer> idList) {
+    public List<Bet> getBetByIdList(List<Integer> idList) {
         return betRepository.selectBetByIdList(idList);
+    }
+
+    @Override
+    public Bet getBetById(Integer id) {
+        return betRepository.findById(id).orElse(null);
     }
 }

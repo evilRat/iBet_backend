@@ -8,8 +8,10 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
+import java.util.List;
 
 @Data
 @Builder
@@ -21,8 +23,9 @@ public class Order {
 
     @Id
     private int id;
+    private String orderCode;
     private int userId;
-    private int betSiteId;
+    private int siteId;
     private int betId;
     private String redBalls;
     private String blueBalls;
@@ -35,4 +38,14 @@ public class Order {
     private String createUserName; //创建人姓名
     private String updateUser; //更新人id
     private String updateUserName; //更新人姓名
+
+    // vo
+    @Transient
+    private String betName;
+    @Transient
+    private String siteName;
+    @Transient
+    private List<Integer> redList;
+    @Transient
+    private List<Integer> blueList;
 }

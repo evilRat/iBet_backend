@@ -18,7 +18,11 @@ public class OrderServiceImpl implements OrderService {
         return orderRepository.save(order);
     }
 
-    public List<Order> getOrderByUserId(String userId) {
-        return orderRepository.selectOrdersByUserId(userId);
+    public List<Order> getOrderByUserIdAndSiteId(Integer userId, Integer siteId) {
+        if (null == siteId || -1 == siteId) {
+            return orderRepository.selectOrdersByUserId(userId);
+        } else {
+            return orderRepository.selectOrdersByUserIdAndSiteId(userId, siteId);
+        }
     }
 }

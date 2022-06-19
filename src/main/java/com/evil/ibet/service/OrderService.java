@@ -8,6 +8,6 @@ public interface OrderService {
 
     Order saveOrder(Order order);
 
-    List<Order> getOrderByUserId(String userId);
+    List<Order> getOrderByUserIdAndSiteId(Integer userId, Integer siteId);
 
 }

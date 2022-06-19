@@ -21,7 +21,7 @@ public class BetController {
     private BetService betService;
 
     @GetMapping(value = "bet", produces = "application/json;charset=UTF-8")
-    public @ResponseBody Response betSites(@RequestParam String ids) {
+    public @ResponseBody Response getBetByIds(@RequestParam String ids) {
         if (!StringUtils.hasText(ids)) {
             return CommonResponse.failure("id不能为空");
         }
@@ -29,8 +29,13 @@ public class BetController {
         if (null == idList || idList.isEmpty()) {
             return CommonResponse.failure("id不能为空");
         }
-        List<Bet> betSiteByIdList = betService.getBetSiteByIdList(idList);
+        List<Bet> betSiteByIdList = betService.getBetByIdList(idList);
         return CommonResponse.success(betSiteByIdList);
+    }
+
+    @GetMapping("bet/{id}")
+    public @ResponseBody Response getBetById(@PathVariable("id") Integer id) {
+        return CommonResponse.success(betService.getBetById(id));
     }
 
 }

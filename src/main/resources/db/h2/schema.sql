@@ -78,3 +78,26 @@ CREATE TABLE t_user_site
 alter table t_user_site
     add unique (user_id, site_id);
 
+
+drop table if exists t_order;
+create table t_order
+(
+    id               int         NOT NULL AUTO_INCREMENT,
+    order_code       varchar(20) not null comment '订单号',
+    user_id          int         not NULL comment '用户ID',
+    site_Id          int         not NULL comment '投注站id',
+    bet_Id           int         not NULL comment '玩法id',
+    red_balls        varchar(20) not NULL comment '红球',
+    blue_balls       varchar(20) not NULL comment '蓝球',
+    times            int         not NULL comment '倍数',
+    amount           int     not NULL comment '总金额',
+
+    create_user      int         not null comment '创建人id',
+    create_user_name varchar(45) not null comment '创建人姓名',
+    create_time      datetime    not null comment '创建时间',
+    update_user      int         not null comment '更新人id',
+    update_user_name varchar(45) not null comment '更新人姓名',
+    update_time      datetime    not null comment '更新实践',
+    primary key (id)
+);
+
