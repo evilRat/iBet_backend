@@ -22,14 +22,14 @@ import java.util.List;
 public class Order {
 
     @Id
-    private int id;
+    private Integer id;
     private String orderCode;
-    private int userId;
-    private int siteId;
-    private int betId;
+    private Integer userId;
+    private Integer siteId;
+    private Integer betId;
     private String redBalls;
     private String blueBalls;
-    private int times; //倍数;
+    private Integer times; //倍数;
     private BigDecimal amount; //总金额
 
     private OffsetDateTime createTime; //创建时间

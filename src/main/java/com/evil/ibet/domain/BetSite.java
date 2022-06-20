@@ -22,7 +22,7 @@ import java.util.List;
 public class BetSite {
 
     @Id
-    private int id;
+    private Integer id;
     private String siteName;        //彩票站名称
     private String master;      //负责人
     private String masterIdCard;      //负责人身份证号

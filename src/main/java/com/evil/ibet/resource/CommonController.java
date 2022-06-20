@@ -3,6 +3,7 @@ package com.evil.ibet.resource;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.evil.ibet.domain.User;
+import com.evil.ibet.domain.UserTypeEnum;
 import com.evil.ibet.service.UserService;
 import com.evil.ibet.utils.WXUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -64,11 +65,11 @@ public class CommonController {
                 if (StringUtils.hasText(wxOpenId)) {
                     User checkUser = userService.getUserByWxOpenId(wxOpenId);
                     if (checkUser == null) {
-                        User user = User.builder().wxOpenId(wxOpenId).wxNickName(nickName).build();
-                        userService.saveUser(user);
+                        User user = User.builder().wxOpenId(wxOpenId).wxNickName(nickName).type(UserTypeEnum.UN_KNOW.getCode()).build();
+                        user = userService.saveUser(user);
                         rtnCode = "0";
                         rtnMessage = "您是新用户，请完成注册";
-                        userId = checkUser.getId();
+                        userId = user.getId();
                     } else {
                         if (StringUtils.isEmpty(checkUser.getIdCardNo()) || StringUtils.isEmpty(checkUser.getUserName())) {
                             rtnCode = "0";

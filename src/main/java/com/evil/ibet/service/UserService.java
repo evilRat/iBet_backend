@@ -8,7 +8,7 @@ import java.util.Map;
 
 public interface UserService {
 
-    void saveUser(User user);
+    User saveUser(User user);
 
     User getUserByWxOpenId(String wxOpenId);
 

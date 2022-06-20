@@ -5,10 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import java.sql.Date;
+import javax.persistence.*;
 import java.time.OffsetDateTime;
 
 @Data
@@ -20,7 +17,8 @@ import java.time.OffsetDateTime;
 public class User {
 
     @Id
-    private int id;             //用户id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;             //用户id
     private Integer type;   //用户类型
     private String wxOpenId;    //微信openId
     private String wxNickName;  //用户微信昵称

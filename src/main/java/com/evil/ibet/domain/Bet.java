@@ -19,12 +19,12 @@ import java.time.OffsetDateTime;
 public class Bet {
 
     @Id
-    private int id;
+    private Integer id;
     private String betName;
-    private int redBallNum;
-    private int blueBallNum;
-    private int redBallRange;
-    private int blueBallRange;
+    private Integer redBallNum;
+    private Integer blueBallNum;
+    private Integer redBallRange;
+    private Integer blueBallRange;
     private String icon;
 
     private OffsetDateTime createTime; //创建时间

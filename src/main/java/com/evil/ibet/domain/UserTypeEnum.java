@@ -1,6 +1,7 @@
 package com.evil.ibet.domain;
 
 public enum UserTypeEnum {
+    UN_KNOW(0, "未知"), // 未知是未注册用户，可以试用，选号分享
     ADMIN(1, "管理员"),
     SITE_MASTER(2, "投注站"),
     BUYER(3, "彩民"),

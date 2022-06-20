@@ -49,12 +49,12 @@ CREATE TABLE t_user
     phone_no         varchar(11) DEFAULT NULL,
     type             int         not null comment '类型：1-系统管理员;2-投注站管理员;3-彩民',
 
-    create_user      int         not null comment '创建人id',
-    create_user_name varchar(45) not null comment '创建人姓名',
-    create_time      datetime    not null comment '创建时间',
-    update_user      int         not null comment '更新人id',
-    update_user_name varchar(45) not null comment '更新人姓名',
-    update_time      datetime    not null comment '更新实践',
+    create_user      int         null comment '创建人id',
+    create_user_name varchar(45) null comment '创建人姓名',
+    create_time      datetime    DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    update_user      int         null comment '更新人id',
+    update_user_name varchar(45) null comment '更新人姓名',
+    update_time      datetime    DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     PRIMARY KEY (id)
 );
 
